@@ -1,0 +1,18 @@
+{
+    "name": "lenovo/control_iot",
+    "require-dev": {
+        "php-mqtt/client": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lenovo\\ControlIot\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Wahyu-Harta-Sasmita",
+            "email": "wahyusasmitaharta561@gmail.com"
+        }
+    ],
+    "require": {}
+}
