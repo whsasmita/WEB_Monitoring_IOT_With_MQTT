@@ -278,9 +278,9 @@ $current_rgb_value = isset($_SESSION['rgb_value']) ? $_SESSION['rgb_value'] : 0;
                             <label class="form-label fw-bold">LED Control</label>
                             <div class="d-grid gap-2">
                                 <button class="btn btn-outline-secondary" onclick="sendRGBValue(0)">LED OFF</button>
-                                <button class="btn btn-success" onclick="sendRGBValue(1)">Mode 1 (Green)</button>
-                                <button class="btn btn-warning" onclick="sendRGBValue(11)">Mode 2 (Yellow)</button>
-                                <button class="btn btn-danger" onclick="sendRGBValue(21)">Mode 3 (Red)</button>
+                                <button class="btn btn-success" onclick="sendRGBValue(1)">Green</button>
+                                <button class="btn btn-warning" onclick="sendRGBValue(11)">Yellow</button>
+                                <button class="btn btn-danger" onclick="sendRGBValue(21)">Red</button>
                             </div>
                         </div>
 
@@ -435,9 +435,9 @@ $current_rgb_value = isset($_SESSION['rgb_value']) ? $_SESSION['rgb_value'] : 0;
             document.getElementById('mqtt-status-text').innerText = 'MQTT: Connected';
 
             // Subscribe to topics
-            mqttClient.subscribe('test/temperature');
-            mqttClient.subscribe('test/humidity');
-            mqttClient.subscribe('test/rgb_control');
+            mqttClient.subscribe('wahyu/temperature');
+            mqttClient.subscribe('wahyu/humidity');
+            mqttClient.subscribe('wahyu/control');
         });
 
         mqttClient.on('error', function(error) {
@@ -457,7 +457,7 @@ $current_rgb_value = isset($_SESSION['rgb_value']) ? $_SESSION['rgb_value'] : 0;
             const value = message.toString();
             console.log('Received message:', topic, value);
 
-            if (topic === 'test/temperature') {
+            if (topic === 'wahyu/temperature') {
                 document.getElementById('current-temp').innerText = value + ' °C';
 
                 // Update chart (simplified - in real implementation you would need more logic)
@@ -471,7 +471,7 @@ $current_rgb_value = isset($_SESSION['rgb_value']) ? $_SESSION['rgb_value'] : 0;
                 saveSensorData('temperature', value);
             }
 
-            if (topic === 'test/humidity') {
+            if (topic === 'wahyu/humidity') {
                 document.getElementById('current-humidity').innerText = value + ' %';
 
                 // Update chart
@@ -484,14 +484,14 @@ $current_rgb_value = isset($_SESSION['rgb_value']) ? $_SESSION['rgb_value'] : 0;
                 saveSensorData('humidity', value);
             }
             
-            if (topic === 'test/rgb_control') {
+            if (topic === 'wahyu/control') {
                 updateLedIndicators(parseInt(value));
             }
         });
 
         function sendRGBValue(value) {
             if (mqttClient && mqttClient.connected) {
-                mqttClient.publish("test/rgb_control", value.toString());
+                mqttClient.publish("wahyu/control", value.toString());
                 console.log("RGB value sent:", value);
                 
                 // Update LED indicators immediately for better UX

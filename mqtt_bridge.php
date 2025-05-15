@@ -3,6 +3,7 @@
 
 // Konfigurasi
 $mqtt_server = "5083093cbb184aedb7c5c48140d30bb3.s1.eu.hivemq.cloud";
+// $mqtt_server = "7d9742e61a8c495aaa6a30c89fdd4ed2.s2.eu.hivemq.cloud";
 $mqtt_port = 8883; // Port aman untuk MQTTS
 $mqtt_client_id = "php_mysql_bridge";
 $mqtt_username = "testing";
@@ -85,7 +86,7 @@ try {
     echo "Connected to MQTT broker.\n";
 
     // Subscribe ke topik yang diperlukan
-    $mqtt->subscribe('test/temperature', function ($topic, $message) use (&$current_data, $conn) {
+    $mqtt->subscribe('wahyu/temperature', function ($topic, $message) use (&$current_data, $conn) {
         echo date('Y-m-d H:i:s') . " - Received temperature: $message\n";
         $current_data['temperature'] = floatval($message);
         
@@ -95,7 +96,7 @@ try {
         }
     }, 0);
 
-    $mqtt->subscribe('test/humidity', function ($topic, $message) use (&$current_data, $conn) {
+    $mqtt->subscribe('wahyu/humidity', function ($topic, $message) use (&$current_data, $conn) {
         echo date('Y-m-d H:i:s') . " - Received humidity: $message\n";
         $current_data['humidity'] = floatval($message);
         
@@ -105,7 +106,7 @@ try {
         }
     }, 0);
 
-    $mqtt->subscribe('test/rgb_control', function ($topic, $message) use (&$current_data) {
+    $mqtt->subscribe('wahyu/control', function ($topic, $message) use (&$current_data) {
         echo date('Y-m-d H:i:s') . " - Received RGB control: $message\n";
         $current_data['rgb_value'] = intval($message);
     }, 0);
